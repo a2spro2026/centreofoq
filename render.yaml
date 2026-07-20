@@ -9,6 +9,8 @@ services:
     startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
     healthCheckPath: /
     envVars:
+      - key: APP_URL
+        value: https://horizon.a2s.com
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
