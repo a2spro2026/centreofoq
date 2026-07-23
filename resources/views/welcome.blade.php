@@ -521,6 +521,17 @@
             font-weight: 500;
         }
 
+        .login-error {
+            padding: 0.7rem 0.85rem;
+            margin-bottom: 0.15rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #ffe6ea;
+            background: rgba(255, 80, 100, 0.18);
+            border: 1px solid rgba(255, 120, 140, 0.4);
+        }
+
         .signup a {
             color: var(--cyan);
             font-weight: 700;
@@ -683,19 +694,25 @@
                     <p>L'ORIZON, La solution qui Gère</p>
                 </div>
 
-                <form class="login-form" method="POST" action="{{ route('login.attempt') }}">
+                <form class="login-form" method="POST" action="{{ url('/login') }}" autocomplete="off">
                     @csrf
+
+                    @if ($errors->any())
+                        <div class="login-error" role="alert">
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
 
                     <div class="field">
                         <svg class="field__icon field__icon--start" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
                             <path d="M12 3l8 4v5c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V7l8-4z"/>
                             <path d="M9 12l2 2 4-4"/>
                         </svg>
-                        <select id="role" name="role" required>
-                            <option value="" disabled selected>Sélectionnez votre statut</option>
-                            <option value="administration">Administration</option>
-                            <option value="professeur">Professeur</option>
-                            <option value="parental">Parental</option>
+                        <select id="role" name="role" required autocomplete="off">
+                            <option value="" disabled>Sélectionnez votre statut</option>
+                            <option value="administration" @selected(old('role', 'administration') === 'administration')>Administration</option>
+                            <option value="professeur" @selected(old('role') === 'professeur')>Professeur</option>
+                            <option value="parental" @selected(old('role') === 'parental')>Parental</option>
                         </select>
                         <svg class="field__icon field__icon--end field__icon--chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path d="M6 9l6 6 6-6"/>
@@ -711,11 +728,17 @@
                             id="email"
                             type="text"
                             name="email"
-                            value="{{ old('email') }}"
-                            autocomplete="username"
+                            value="{{ old('email', 'admin@horizon.com') }}"
+                            autocomplete="off"
+                            autocapitalize="off"
+                            spellcheck="false"
+                            data-lpignore="true"
+                            data-1p-ignore
                             placeholder="E-mail ou nom d'utilisateur"
                             required
                             autofocus
+                            readonly
+                            onfocus="this.removeAttribute('readonly')"
                         >
                     </div>
 
@@ -728,9 +751,14 @@
                             id="password"
                             type="password"
                             name="password"
-                            autocomplete="current-password"
+                            value="password"
+                            autocomplete="new-password"
+                            data-lpignore="true"
+                            data-1p-ignore
                             placeholder="Mot de passe"
                             required
+                            readonly
+                            onfocus="this.removeAttribute('readonly')"
                         >
                         <button type="button" class="field__icon field__icon--end" id="toggle-password" aria-label="Afficher le mot de passe">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="18" height="18">
