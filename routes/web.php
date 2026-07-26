@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CentreController;
+use App\Models\Centre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,12 +49,16 @@ Route::post('/logout', function (Request $request) {
     return redirect()->route('login');
 })->name('logout');
 
-Route::get('/admin', function () {
+Route::get('/admin', function (Request $request) {
     if (session('auth.role') !== 'administration') {
         return redirect()->route('login');
     }
 
     return view('admin.dashboard', [
         'user' => session('auth'),
+        'centre' => Centre::query()->first(),
+        'activeSection' => $request->query('section', 'administration'),
     ]);
 })->name('admin.dashboard');
+
+Route::post('/admin/centre', [CentreController::class, 'update'])->name('admin.centre.update');
