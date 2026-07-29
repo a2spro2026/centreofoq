@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Centre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CentreController extends Controller
 {
@@ -28,6 +29,12 @@ class CentreController extends Controller
             'photo.max' => 'La photo ne doit pas dépasser 2 Mo.',
         ]);
 
+        foreach (['nom_centre', 'nom_gerant', 'contact', 'adresse', 'ville', 'description'] as $field) {
+            if (isset($validated[$field])) {
+                $validated[$field] = Str::upper($validated[$field]);
+            }
+        }
+
         $centre = Centre::query()->first() ?? new Centre;
 
         if ($request->hasFile('photo')) {
@@ -44,7 +51,7 @@ class CentreController extends Controller
         $centre->save();
 
         return redirect()
-            ->route('admin.dashboard', ['section' => 'fiche-centre'])
+            ->route('admin.dashboard', ['section' => 'fiche-centre', 'mode' => 'view'])
             ->with('success', 'Fiche centre enregistrée avec succès.');
     }
 }

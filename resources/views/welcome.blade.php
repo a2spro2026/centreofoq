@@ -30,6 +30,13 @@
             font-family: var(--font-ar);
             background: var(--navy-deep);
             color: var(--white);
+            text-transform: uppercase;
+        }
+
+        input,
+        select,
+        button {
+            text-transform: uppercase;
         }
 
         .landing {
