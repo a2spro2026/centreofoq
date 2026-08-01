@@ -39,6 +39,10 @@
             text-transform: uppercase;
         }
 
+        input[type="password"] {
+            text-transform: none;
+        }
+
         .landing {
             position: relative;
             width: 100vw;
@@ -701,7 +705,7 @@
                     <p>L'ORIZON, La solution qui Gère</p>
                 </div>
 
-                <form class="login-form" method="POST" action="{{ url('/login') }}" autocomplete="off">
+                <form class="login-form" method="POST" action="{{ route('login.attempt') }}" autocomplete="on">
                     @csrf
 
                     @if ($errors->any())
@@ -733,19 +737,14 @@
                         </svg>
                         <input
                             id="email"
-                            type="text"
+                            type="email"
                             name="email"
                             value="{{ old('email', 'admin@horizon.com') }}"
-                            autocomplete="off"
+                            autocomplete="username"
                             autocapitalize="off"
                             spellcheck="false"
-                            data-lpignore="true"
-                            data-1p-ignore
-                            placeholder="E-mail ou nom d'utilisateur"
+                            placeholder="E-mail"
                             required
-                            autofocus
-                            readonly
-                            onfocus="this.removeAttribute('readonly')"
                         >
                     </div>
 
@@ -759,13 +758,9 @@
                             type="password"
                             name="password"
                             value="password"
-                            autocomplete="new-password"
-                            data-lpignore="true"
-                            data-1p-ignore
+                            autocomplete="current-password"
                             placeholder="Mot de passe"
                             required
-                            readonly
-                            onfocus="this.removeAttribute('readonly')"
                         >
                         <button type="button" class="field__icon field__icon--end" id="toggle-password" aria-label="Afficher le mot de passe">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="18" height="18">

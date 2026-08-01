@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8">
@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -31,8 +31,8 @@
             --navy: #eaf4fb;
             --navy-mid: #ffffff;
             --navy-soft: #e3f1fa;
-            --font-display: 'Merriweather', Georgia, serif;
-            --font: 'Poppins', Arial, sans-serif;
+            --font-display: 'Plus Jakarta Sans', Arial, sans-serif;
+            --font: 'Plus Jakarta Sans', Arial, sans-serif;
             --sidebar-w: 280px;
             --nav-h: 72px;
             --shadow: 0 10px 28px rgba(30, 100, 150, 0.1);
@@ -45,6 +45,11 @@
             height: 100%;
             overflow: hidden;
             font-family: var(--font);
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
             background: var(--bg);
             color: var(--text);
             text-transform: uppercase;
@@ -570,16 +575,343 @@
             font-weight: 500;
         }
 
-        .form-alert--success {
-            color: #1a7a5c;
-            background: rgba(34, 170, 130, 0.1);
-            border: 1px solid rgba(34, 170, 130, 0.28);
-        }
-
         .form-alert--error {
             color: #b83245;
             background: rgba(224, 69, 90, 0.08);
             border: 1px solid rgba(224, 69, 90, 0.25);
+        }
+
+        #panel-fiche-prof .form-window {
+            padding-top: 1rem;
+        }
+
+        #panel-fiche-prof .form-window__head {
+            margin-bottom: 0.55rem;
+            padding-bottom: 0.55rem;
+        }
+
+        #panel-matieres .form-window {
+            padding-top: 1rem;
+        }
+
+        #panel-matieres .form-window__head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.65rem;
+        }
+
+        .matiere-groups {
+            display: flex;
+            flex-direction: column;
+            gap: 1.35rem;
+        }
+
+        .matiere-group__title {
+            margin: 0 0 0.7rem;
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--primary-deep);
+        }
+
+        .matiere-cards {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.85rem;
+        }
+
+        .matiere-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 78px;
+            padding: 0.9rem 0.75rem;
+            border: 1px solid rgba(45, 182, 228, 0.28);
+            border-radius: 16px;
+            background: linear-gradient(180deg, #ffffff 0%, #eef7fc 100%);
+            box-shadow: 0 8px 18px rgba(30, 100, 150, 0.08);
+            color: var(--primary-deep);
+            font: inherit;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        .matiere-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(26, 127, 194, 0.55);
+            box-shadow: 0 12px 24px rgba(30, 100, 150, 0.14);
+        }
+
+        .matiere-card.is-active {
+            border-color: #1a7fc2;
+            background: linear-gradient(180deg, #e8f5fc 0%, #d4ebf8 100%);
+            box-shadow: 0 0 0 2px rgba(26, 127, 194, 0.2);
+        }
+
+        .matiere-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 120;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(12, 40, 62, 0.28);
+            backdrop-filter: blur(2px);
+        }
+
+        .matiere-sheet-overlay.is-open {
+            display: flex;
+        }
+
+        .matiere-sheet {
+            width: min(340px, 100%);
+            padding: 1.15rem 1.2rem 1.2rem;
+            border-radius: 18px;
+            border: 1px solid rgba(45, 182, 228, 0.35);
+            background: linear-gradient(180deg, #ffffff 0%, #f2f8fc 100%);
+            box-shadow: 0 18px 40px rgba(20, 70, 110, 0.22);
+            animation: matiere-sheet-in 0.18s ease;
+        }
+
+        @keyframes matiere-sheet-in {
+            from { opacity: 0; transform: translateY(8px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .matiere-sheet__head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.95rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(45, 182, 228, 0.22);
+        }
+
+        .matiere-sheet__eyebrow {
+            margin: 0 0 0.2rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .matiere-sheet__title {
+            margin: 0;
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-deep);
+            text-transform: uppercase;
+        }
+
+        .matiere-sheet__close {
+            border: 0;
+            background: transparent;
+            color: var(--muted);
+            font-size: 1.35rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0.1rem 0.35rem;
+        }
+
+        .matiere-sheet__stats {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .matiere-sheet__stat {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.7rem 0.85rem;
+            border-radius: 12px;
+            border: 1px solid rgba(45, 182, 228, 0.2);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .matiere-sheet__label {
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .matiere-sheet__value {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--primary-deep);
+        }
+
+        .matiere-empty {
+            color: var(--muted);
+            font-size: 0.92rem;
+            text-transform: uppercase;
+        }
+
+        .matiere-carte-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .matiere-carte-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.55rem;
+            align-items: center;
+        }
+
+        .matiere-carte-row input {
+            width: 100%;
+        }
+
+        @media (max-width: 1100px) {
+            .matiere-cards {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .matiere-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            #panel-matieres .form-window__head {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        #panel-etudiants .form-window {
+            padding-top: 1rem;
+        }
+
+        #etudiant-form-overlay,
+        #etudiant-view-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+        }
+
+        #etudiant-form-overlay.is-open,
+        #etudiant-view-overlay.is-open {
+            display: flex;
+        }
+
+        #etudiant-form-overlay .doc-modal,
+        #etudiant-view-overlay .doc-modal {
+            margin: auto;
+            width: min(720px, 100%);
+            max-height: min(86vh, 860px);
+        }
+
+        .etudiant-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.65rem;
+        }
+
+        .etudiant-analytics {
+            margin-bottom: 1rem;
+        }
+
+        .stats--etudiants {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .etudiant-photo-thumb {
+            width: 38px;
+            height: 38px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(45, 182, 228, 0.35);
+            display: block;
+        }
+
+        .etudiant-photo-empty {
+            color: var(--muted);
+        }
+
+        .etudiant-photo-hint {
+            margin: 0.35rem 0 0;
+            font-size: 0.78rem;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .etudiant-form-photo {
+            max-width: 220px;
+        }
+
+        .etudiant-form-photo .form-photo__preview {
+            aspect-ratio: 1;
+            max-height: 220px;
+        }
+
+        .etudiant-photo-top {
+            justify-items: start;
+        }
+
+        @media print {
+            body.printing-etudiant * { visibility: hidden !important; }
+            body.printing-etudiant #etudiant-print-sheet,
+            body.printing-etudiant #etudiant-print-sheet * { visibility: visible !important; }
+            body.printing-etudiant #etudiant-print-sheet {
+                position: absolute;
+                inset: 0;
+                padding: 1.5rem;
+            }
+        }
+
+        .etudiant-print-sheet {
+            display: none;
+        }
+
+        body.printing-etudiant .etudiant-print-sheet {
+            display: block;
+        }
+
+        .etudiant-print-sheet__photo {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid #9ec9e4;
+            margin-bottom: 1rem;
+        }
+
+        .form-field input[type="file"] {
+            padding: 0.45rem;
+            background: #fff;
+        }
+
+        @media (max-width: 700px) {
+            .stats--etudiants {
+                grid-template-columns: 1fr;
+            }
+
+            .etudiant-head {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
 
         .form-grid {
@@ -590,6 +922,7 @@
         }
 
         .form-photo {
+            position: relative;
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
@@ -1587,8 +1920,8 @@
         .panel.is-visible { display: block; }
 
         @keyframes panel-in {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to   { opacity: 1; }
         }
 
         .panel__hero {
@@ -1853,6 +2186,56 @@
             margin-bottom: 1.1rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--line);
+        }
+
+        .sessions-window__title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            min-width: 0;
+        }
+
+        .sessions-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            width: fit-content;
+            padding: 0.45rem 0.8rem;
+            border: 1px solid rgba(45, 182, 228, 0.4);
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(45, 182, 228, 0.14), #fff);
+            color: var(--primary-deep);
+            font: inherit;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(30, 100, 150, 0.08);
+            transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .sessions-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(30, 100, 150, 0.14);
+            background: linear-gradient(135deg, rgba(45, 182, 228, 0.22), #fff);
+        }
+
+        .sessions-toggle svg {
+            width: 15px;
+            height: 15px;
+            flex: 0 0 auto;
+        }
+
+        .sessions-window.is-collapsed .sessions-grid {
+            display: none;
+        }
+
+        .sessions-window.is-collapsed {
+            flex: 0 0 auto;
+        }
+
+        #panel-administration .sessions-window.is-collapsed {
+            flex: 0 0 auto;
         }
 
         .sessions-window__filters {
@@ -2464,13 +2847,13 @@
 
             <div class="navbar__profile">
                 <div class="navbar__profile-meta">
-                    <div class="navbar__profile-name">{{ $user['name'] ?? 'Directeur gÃ©nÃ©ral' }}</div>
-                    <div class="navbar__profile-role">Profil administrateur</div>
+                    <div class="navbar__profile-name">{{ $user['name'] ?? 'SAMIR JADI' }}</div>
+                    <div class="navbar__profile-role">{{ $user['title'] ?? 'DIRECTEUR GENERAL' }}</div>
                 </div>
                 <img
                     class="navbar__avatar"
-                    src="{{ asset('images/admin-avatar.svg') }}"
-                    alt="Photo de profil â€” Directeur gÃ©nÃ©ral"
+                    src="{{ asset('images/profile-samir-jadi.png') }}?v={{ @filemtime(public_path('images/profile-samir-jadi.png')) ?: time() }}"
+                    alt="Photo de profil — SAMIR JADI"
                 >
             </div>
         </header>
@@ -2499,8 +2882,8 @@
                 $currentSection = $activeSection ?? 'administration';
             @endphp
 
-            <div class="nav-group {{ in_array($currentSection, $adminSections, true) ? 'is-open is-active-section' : '' }}" data-nav-group="administration">
-                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'administration' ? 'is-active' : '' }}" data-section="administration" data-group-toggle aria-expanded="{{ in_array($currentSection, $adminSections, true) ? 'true' : 'false' }}">
+            <div class="nav-group {{ in_array($currentSection, $adminSections, true) ? 'is-active-section' : '' }}" data-nav-group="administration">
+                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'administration' ? 'is-active' : '' }}" data-section="administration" data-group-toggle aria-expanded="false">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                             <path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-6h6v6"/>
@@ -2572,8 +2955,8 @@
                 </div>
             </div>
 
-            <div class="nav-group {{ in_array($currentSection, ['paiement', 'frais-formation', 'tresorerie', 'rapports-financiers', 'relances', 'echeancier'], true) ? 'is-open is-active-section' : '' }}" data-nav-group="paiement">
-                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'paiement' ? 'is-active' : '' }}" data-section="paiement" data-group-toggle aria-expanded="{{ in_array($currentSection, ['paiement', 'frais-formation', 'tresorerie', 'rapports-financiers', 'relances', 'echeancier'], true) ? 'true' : 'false' }}">
+            <div class="nav-group {{ in_array($currentSection, ['paiement', 'frais-formation', 'tresorerie', 'rapports-financiers', 'relances', 'echeancier'], true) ? 'is-active-section' : '' }}" data-nav-group="paiement">
+                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'paiement' ? 'is-active' : '' }}" data-section="paiement" data-group-toggle aria-expanded="false">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                             <rect x="2" y="5" width="20" height="14" rx="2"/>
@@ -2651,8 +3034,8 @@
                 </div>
             </div>
 
-            <div class="nav-group {{ in_array($currentSection, ['profs', 'fiche-prof', 'matieres', 'fiche-analytique-profs', 'liste-recrutement', 'affectation-cours', 'emploi-temps', 'gestion-remplacements', 'rapports-profs'], true) ? 'is-open is-active-section' : '' }}" data-nav-group="profs">
-                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'profs' ? 'is-active' : '' }}" data-section="profs" data-group-toggle aria-expanded="{{ in_array($currentSection, ['profs', 'fiche-prof', 'matieres', 'fiche-analytique-profs', 'liste-recrutement', 'affectation-cours', 'emploi-temps', 'gestion-remplacements', 'rapports-profs'], true) ? 'true' : 'false' }}">
+            <div class="nav-group {{ in_array($currentSection, ['profs', 'fiche-prof', 'matieres', 'fiche-analytique-profs', 'liste-recrutement', 'affectation-cours', 'emploi-temps', 'gestion-remplacements', 'rapports-profs'], true) ? 'is-active-section' : '' }}" data-nav-group="profs">
+                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'profs' ? 'is-active' : '' }}" data-section="profs" data-group-toggle aria-expanded="false">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                             <circle cx="12" cy="8" r="3.5"/>
@@ -2742,8 +3125,8 @@
                 </div>
             </div>
 
-            <div class="nav-group {{ in_array($currentSection, ['etudiants', 'fiche-eleve', 'affectation-suivi', 'discipline', 'notes-evaluations', 'rapports-etudiants'], true) ? 'is-open is-active-section' : '' }}" data-nav-group="etudiants">
-                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'etudiants' ? 'is-active' : '' }}" data-section="etudiants" data-group-toggle aria-expanded="{{ in_array($currentSection, ['etudiants', 'fiche-eleve', 'affectation-suivi', 'discipline', 'notes-evaluations', 'rapports-etudiants'], true) ? 'true' : 'false' }}">
+            <div class="nav-group {{ in_array($currentSection, ['etudiants', 'fiche-eleve', 'affectation-suivi', 'discipline', 'notes-evaluations', 'rapports-etudiants'], true) ? 'is-active-section' : '' }}" data-nav-group="etudiants">
+                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'etudiants' ? 'is-active' : '' }}" data-section="etudiants" data-group-toggle aria-expanded="false">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                             <path d="M4 19V7l8-3 8 3v12"/>
@@ -2818,8 +3201,8 @@
                 </div>
             </div>
 
-            <div class="nav-group {{ $currentSection === 'classes' ? 'is-open is-active-section' : '' }}" data-nav-group="classes">
-                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'classes' ? 'is-active' : '' }}" data-section="classes" data-group-toggle aria-expanded="{{ $currentSection === 'classes' ? 'true' : 'false' }}">
+            <div class="nav-group {{ $currentSection === 'classes' ? 'is-active-section' : '' }}" data-nav-group="classes">
+                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'classes' ? 'is-active' : '' }}" data-section="classes" data-group-toggle aria-expanded="false">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                             <rect x="3" y="4" width="18" height="14" rx="2"/>
@@ -2839,8 +3222,8 @@
                 </button>
             </div>
 
-            <div class="nav-group {{ $currentSection === 'personnels' ? 'is-open is-active-section' : '' }}" data-nav-group="personnels">
-                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'personnels' ? 'is-active' : '' }}" data-section="personnels" data-group-toggle aria-expanded="{{ $currentSection === 'personnels' ? 'true' : 'false' }}">
+            <div class="nav-group {{ $currentSection === 'personnels' ? 'is-active-section' : '' }}" data-nav-group="personnels">
+                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'personnels' ? 'is-active' : '' }}" data-section="personnels" data-group-toggle aria-expanded="false">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                             <circle cx="9" cy="8" r="3"/>
@@ -2861,8 +3244,8 @@
                 </button>
             </div>
 
-            <div class="nav-group {{ $currentSection === 'charges' ? 'is-open is-active-section' : '' }}" data-nav-group="charges">
-                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'charges' ? 'is-active' : '' }}" data-section="charges" data-group-toggle aria-expanded="{{ $currentSection === 'charges' ? 'true' : 'false' }}">
+            <div class="nav-group {{ $currentSection === 'charges' ? 'is-active-section' : '' }}" data-nav-group="charges">
+                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'charges' ? 'is-active' : '' }}" data-section="charges" data-group-toggle aria-expanded="false">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                             <path d="M4 19h16"/><path d="M7 19V9l5-4 5 4v10"/>
@@ -2881,8 +3264,8 @@
                 </button>
             </div>
 
-            <div class="nav-group {{ $currentSection === 'configuration' ? 'is-open is-active-section' : '' }}" data-nav-group="configuration">
-                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'configuration' ? 'is-active' : '' }}" data-section="configuration" data-group-toggle aria-expanded="{{ $currentSection === 'configuration' ? 'true' : 'false' }}">
+            <div class="nav-group {{ $currentSection === 'configuration' ? 'is-active-section' : '' }}" data-nav-group="configuration">
+                <button type="button" class="nav-item nav-group__toggle {{ $currentSection === 'configuration' ? 'is-active' : '' }}" data-section="configuration" data-group-toggle aria-expanded="false">
                     <span class="nav-item__icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                             <circle cx="12" cy="12" r="3"/>
@@ -2950,11 +3333,18 @@
                     </div>
                 </div>
 
-                <div class="sessions-window" style="margin-top: 1.25rem;">
+                <div class="sessions-window" id="sessions-window" style="margin-top: 1.25rem;">
                     <div class="sessions-window__head">
-                        <div>
+                        <div class="sessions-window__title-wrap">
                             <h2 class="form-window__title">Tableau de Bord des Séances</h2>
                             <p class="form-window__desc">Cliquez sur une séance pour afficher ses informations.</p>
+                            <button type="button" class="sessions-toggle" id="sessions-toggle" aria-controls="sessions-grid" aria-expanded="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <span id="sessions-toggle-label">Masquer</span>
+                            </button>
                         </div>
 
                         <div class="sessions-window__filters" aria-label="Recherche calendrier">
@@ -3156,10 +3546,6 @@
                 </div>
 
                 <div class="centre-sheet-wrap" id="centre-sheet-wrap" @if (! $showCentreSheet) hidden @endif>
-                    @if (session('success'))
-                        <div class="form-alert form-alert--success">{{ session('success') }}</div>
-                    @endif
-
                     @if ($centre)
                         <article class="centre-sheet" id="centre-sheet">
                             <header class="centre-sheet__header">
@@ -3244,10 +3630,6 @@
                     <div class="form-window__head">
                         <h2 class="form-window__title">Documents Administratifs</h2>
                     </div>
-
-                    @if (session('success') && ($activeSection ?? '') === 'documents-administratifs')
-                        <div class="form-alert form-alert--success">{{ session('success') }}</div>
-                    @endif
 
                     @if ($errors->any() && ($activeSection ?? '') === 'documents-administratifs')
                         <div class="form-alert form-alert--error">
@@ -3472,10 +3854,6 @@
                             Imprimer
                         </button>
                     </div>
-
-                    @if (session('success') && ($activeSection ?? '') === 'parametres-financiers')
-                        <div class="form-alert form-alert--success">{{ session('success') }}</div>
-                    @endif
 
                     @if ($errors->any() && ($activeSection ?? '') === 'parametres-financiers')
                         <div class="form-alert form-alert--error">
@@ -3772,9 +4150,116 @@
             </section>
 
             <section class="panel {{ ($activeSection ?? '') === 'matieres' ? 'is-visible' : '' }}" id="panel-matieres" data-panel="matieres">
-                <div class="panel-placeholder">
-                    <h2 class="panel__title">Matière</h2>
-                    <p>Gérez les matières enseignées, leur statut et leur affectation.</p>
+                <div class="form-window">
+                    <div class="form-window__head">
+                        <div>
+                            <h2 class="form-window__title">Matière</h2>
+                        </div>
+                        <div class="centre-sheet-actions">
+                            <button type="button" class="btn btn--primary" id="matiere-add-open">Ajouter</button>
+                            <button type="button" class="btn btn--secondary" id="matiere-validate">Valider</button>
+                        </div>
+                    </div>
+
+                    @if ($errors->any() && ($activeSection ?? '') === 'matieres')
+                        <div class="form-alert form-alert--error">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="doc-panel-scroll">
+                        <div class="matiere-groups" id="matiere-groups">
+                            @forelse ($matiereCategories ?? [] as $categorie)
+                                <section class="matiere-group" data-categorie-id="{{ $categorie->id }}">
+                                    <h3 class="matiere-group__title">{{ $categorie->titre }}</h3>
+                                    @if ($categorie->cartes->isEmpty())
+                                        <p class="matiere-empty">Aucune carte pour ce titre.</p>
+                                    @else
+                                        <div class="matiere-cards">
+                                            @foreach ($categorie->cartes as $carte)
+                                                <button
+                                                    type="button"
+                                                    class="matiere-card"
+                                                    data-carte-id="{{ $carte->id }}"
+                                                    data-carte-nom="{{ $carte->nom }}"
+                                                >
+                                                    {{ $carte->nom }}
+                                                </button>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </section>
+                            @empty
+                                <p class="matiere-empty">Aucune matière enregistrée. Cliquez sur Ajouter.</p>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-overlay" id="matiere-form-overlay" aria-hidden="true">
+                    <div class="doc-modal doc-modal--form" role="dialog" aria-modal="true" aria-labelledby="matiere-form-title">
+                        <div class="doc-modal__head">
+                            <div>
+                                <h3 class="doc-modal__title" id="matiere-form-title">Ajouter un titre</h3>
+                                <p class="doc-modal__subtitle">Plusieurs cartes possibles</p>
+                            </div>
+                            <button type="button" class="btn btn--ghost" id="matiere-form-close">Fermer</button>
+                        </div>
+
+                        <form method="POST" action="{{ route('admin.matieres.store') }}" class="form-fields" id="matiere-admin-form" novalidate>
+                            @csrf
+
+                            <div class="form-field form-field--full">
+                                <label for="matiere_titre">Titre</label>
+                                <input id="matiere_titre" type="text" name="titre" required maxlength="255" placeholder="Ex. Communication">
+                            </div>
+
+                            <div class="form-field form-field--full">
+                                <label>Carte</label>
+                                <div class="matiere-carte-rows" id="matiere-carte-rows">
+                                    <div class="matiere-carte-row">
+                                        <input type="text" name="cartes[]" required maxlength="255" placeholder="Nom de la carte">
+                                        <button type="button" class="btn btn--ghost matiere-carte-add" title="Ajouter une carte">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="doc-modal__actions form-field--full">
+                                <button type="button" class="btn btn--ghost" id="matiere-form-cancel">Fermer</button>
+                                <button type="submit" class="btn btn--primary">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="matiere-sheet-overlay" id="matiere-sheet-overlay" aria-hidden="true">
+                    <div class="matiere-sheet" role="dialog" aria-modal="true" aria-labelledby="matiere-sheet-title">
+                        <div class="matiere-sheet__head">
+                            <div>
+                                <p class="matiere-sheet__eyebrow" id="matiere-sheet-titre"></p>
+                                <h3 class="matiere-sheet__title" id="matiere-sheet-title"></h3>
+                            </div>
+                            <button type="button" class="matiere-sheet__close" id="matiere-sheet-close" aria-label="Fermer">×</button>
+                        </div>
+                        <div class="matiere-sheet__stats">
+                            <div class="matiere-sheet__stat">
+                                <span class="matiere-sheet__label">Nbre d'étudiants</span>
+                                <span class="matiere-sheet__value" id="matiere-sheet-etudiants">0</span>
+                            </div>
+                            <div class="matiere-sheet__stat">
+                                <span class="matiere-sheet__label">Nbre de profs</span>
+                                <span class="matiere-sheet__value" id="matiere-sheet-profs">0</span>
+                            </div>
+                            <div class="matiere-sheet__stat">
+                                <span class="matiere-sheet__label">Revenu mensuel</span>
+                                <span class="matiere-sheet__value" id="matiere-sheet-revenu">0</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -3849,10 +4334,181 @@
             </section>
 
             <section class="panel {{ ($activeSection ?? '') === 'fiche-prof' ? 'is-visible' : '' }}" id="panel-fiche-prof" data-panel="fiche-prof">
-                <div class="panel-placeholder">
-                    <h2 class="panel__title">Fiche Prof</h2>
-                    <p>CrÃ©ez et consultez les dossiers individuels des professeurs.</p>
+                <div class="form-window">
+                    <div class="form-window__head">
+                        <div>
+                            <h2 class="form-window__title">Fiche Prof</h2>
+                        </div>
+                        <div class="centre-sheet-actions">
+                            <button type="button" class="btn btn--primary" id="prof-add-open">Ajouter</button>
+                            <button type="button" class="btn btn--danger" id="prof-panel-close">Fermer</button>
+                        </div>
+                    </div>
+
+                    @if ($errors->any() && ($activeSection ?? '') === 'fiche-prof')
+                        <div class="form-alert form-alert--error">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="doc-panel-scroll" id="prof-print-area">
+                        <div class="doc-table-wrap">
+                            <table class="doc-table" id="prof-main-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>ID</th>
+                                        <th>Nom Complet</th>
+                                        <th>Matière</th>
+                                        <th>Statut</th>
+                                        <th>Établissement</th>
+                                        <th>Niveau</th>
+                                        <th>Type</th>
+                                        <th>Paiement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="prof-table-body">
+                                    @forelse ($profsList ?? [] as $prof)
+                                        <tr class="prof-row" data-prof-id="{{ $prof->id }}">
+                                            <td>{{ optional($prof->date_prof)->format('d/m/Y') ?: '—' }}</td>
+                                            <td>{{ $prof->reference }}</td>
+                                            <td>{{ $prof->nom_complet }}</td>
+                                            <td>{{ $prof->matiere }}</td>
+                                            <td>{{ $prof->statut_label }}</td>
+                                            <td>{{ $prof->etablissement ?: '—' }}</td>
+                                            <td>{{ $prof->niveau_label }}</td>
+                                            <td>{{ $prof->type_label }}</td>
+                                            <td>{{ $prof->paiement_label }}</td>
+                                            <td>
+                                                <div class="doc-actions">
+                                                    <button type="button" class="doc-action doc-action--icon" data-prof-view="{{ $prof->id }}" title="Voir" aria-label="Voir">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                                    </button>
+                                                    <button type="button" class="doc-action doc-action--icon" data-prof-edit="{{ $prof->id }}" title="Modifier" aria-label="Modifier">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20h4l11-11-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>
+                                                    </button>
+                                                    <button type="button" class="doc-action doc-action--icon doc-action--danger" data-prof-delete="{{ $prof->id }}" title="Supprimer" aria-label="Supprimer">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr id="prof-empty-row">
+                                            <td colspan="10" class="doc-empty">Aucun professeur enregistré. Cliquez sur Ajouter pour saisir.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="doc-overlay" id="prof-form-overlay" aria-hidden="true">
+                    <div class="doc-modal doc-modal--form" role="dialog" aria-modal="true" aria-labelledby="prof-form-title">
+                        <div class="doc-modal__head">
+                            <div>
+                                <h3 class="doc-modal__title" id="prof-form-title">Nouveau professeur</h3>
+                                <p class="doc-modal__subtitle" id="prof-form-subtitle">Saisie</p>
+                            </div>
+                            <button type="button" class="btn btn--ghost" id="prof-form-close">Fermer</button>
+                        </div>
+
+                        <form method="POST" action="{{ route('admin.profs.store') }}" class="form-fields" id="prof-admin-form" novalidate>
+                            @csrf
+                            <input type="hidden" name="_method" id="prof-form-method" value="POST">
+
+                            <div class="form-field">
+                                <label for="prof_date">Date</label>
+                                <input id="prof_date" type="date" name="date_prof" value="{{ now()->toDateString() }}" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="prof_reference">ID</label>
+                                <input id="prof_reference" type="text" readonly value="{{ $nextProfRef ?? 'PR-0001' }}">
+                            </div>
+                            <div class="form-field form-field--full">
+                                <label for="prof_nom">Nom Complet</label>
+                                <input id="prof_nom" type="text" name="nom_complet" required maxlength="255" placeholder="Nom complet">
+                            </div>
+                            <div class="form-field">
+                                <label for="prof_matiere">Matière</label>
+                                <input id="prof_matiere" type="text" name="matiere" required maxlength="255" placeholder="Matière">
+                            </div>
+                            <div class="form-field">
+                                <label for="prof_statut">Statut</label>
+                                <select id="prof_statut" name="statut" required>
+                                    <option value="">— Choisir —</option>
+                                    @foreach ($profStatuts ?? [] as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="prof_etablissement">Établissement</label>
+                                <input id="prof_etablissement" type="text" name="etablissement" maxlength="255" placeholder="Établissement">
+                            </div>
+                            <div class="form-field">
+                                <label for="prof_niveau">Niveau</label>
+                                <select id="prof_niveau" name="niveau" required>
+                                    <option value="">— Choisir —</option>
+                                    @foreach ($profNiveaux ?? [] as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="prof_type">Type</label>
+                                <select id="prof_type" name="type" required>
+                                    <option value="">— Choisir —</option>
+                                    @foreach ($profTypes ?? [] as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="prof_paiement">Paiement</label>
+                                <select id="prof_paiement" name="paiement" required>
+                                    <option value="">— Choisir —</option>
+                                    @foreach ($profPaiements ?? [] as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="doc-modal__actions form-field--full">
+                                <button type="button" class="btn btn--ghost" id="prof-form-cancel">Fermer</button>
+                                <button type="submit" class="btn btn--primary" id="prof-form-submit">Valider</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="doc-overlay" id="prof-view-overlay" aria-hidden="true">
+                    <div class="doc-modal" role="dialog" aria-modal="true" aria-labelledby="prof-view-title">
+                        <div class="doc-modal__head">
+                            <div>
+                                <h3 class="doc-modal__title" id="prof-view-title">Détail professeur</h3>
+                                <p class="doc-modal__subtitle" id="prof-view-subtitle"></p>
+                            </div>
+                            <button type="button" class="btn btn--ghost" id="prof-view-close">Fermer</button>
+                        </div>
+                        <div class="doc-view-grid" id="prof-view-body"></div>
+                        <div class="doc-modal__actions">
+                            <a class="btn btn--ghost" id="prof-view-pdf" href="#" target="_blank" rel="noopener">PDF</a>
+                            <button type="button" class="btn btn--primary" id="prof-view-edit">Modifier</button>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST" id="prof-delete-form" hidden>
+                    @csrf
+                    @method('DELETE')
+                </form>
             </section>
 
             <section class="panel {{ ($activeSection ?? '') === 'liste-recrutement' ? 'is-visible' : '' }}" id="panel-liste-recrutement" data-panel="liste-recrutement">
@@ -3891,9 +4547,210 @@
             </section>
 
             <section class="panel {{ ($activeSection ?? '') === 'etudiants' ? 'is-visible' : '' }}" id="panel-etudiants" data-panel="etudiants">
-                <div class="panel-placeholder">
-                    <h2 class="panel__title">Gestion Etudiant</h2>
-                    <p>SÃ©lectionnez un sous-menu pour gÃ©rer les Ã©lÃ¨ves, le suivi, la discipline, les notes ou les rapports.</p>
+                <div class="form-window">
+                    <div class="form-window__head etudiant-head">
+                        <div>
+                            <h2 class="form-window__title">Gestion Etudiant</h2>
+                        </div>
+                        <div class="centre-sheet-actions">
+                            <button type="button" class="btn btn--primary" id="etudiant-add-open">Ajouter</button>
+                            <button type="button" class="btn btn--danger" id="etudiant-panel-close">Fermer</button>
+                        </div>
+                    </div>
+
+                    @if ($errors->any() && ($activeSection ?? '') === 'etudiants')
+                        <div class="form-alert form-alert--error">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="analytics-sticky etudiant-analytics">
+                        <div class="stats stats--paiement stats--etudiants">
+                            <article class="stat">
+                                <div class="stat__label">Effectifs</div>
+                                <div class="stat__value">{{ number_format((float) ($etudiantsStats['effectifs'] ?? 0), 0, ',', ' ') }}</div>
+                            </article>
+                            <article class="stat">
+                                <div class="stat__label">Revenu</div>
+                                <div class="stat__value">{{ number_format((float) ($etudiantsStats['revenu'] ?? 0), 2, ',', ' ') }}</div>
+                            </article>
+                            <article class="stat">
+                                <div class="stat__label">Solde</div>
+                                <div class="stat__value">{{ number_format((float) ($etudiantsStats['solde'] ?? 0), 2, ',', ' ') }}</div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="doc-panel-scroll">
+                        <div class="doc-table-wrap">
+                            <table class="doc-table" id="etudiant-main-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>ID/ET</th>
+                                        <th>Nom Complet</th>
+                                        <th>Niv/Sc</th>
+                                        <th>Date/Insc</th>
+                                        <th>Matière</th>
+                                        <th>Type Paie</th>
+                                        <th>Mode Paie</th>
+                                        <th>Photo</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="etudiant-table-body">
+                                    @forelse ($etudiantsList ?? [] as $etudiant)
+                                        <tr class="etudiant-row" data-etudiant-id="{{ $etudiant->id }}">
+                                            <td>{{ optional($etudiant->date_etudiant)->format('d/m/Y') ?: '—' }}</td>
+                                            <td>{{ $etudiant->reference }}</td>
+                                            <td>{{ $etudiant->nom_complet }}</td>
+                                            <td>{{ $etudiant->niveau_scolaire }}</td>
+                                            <td>{{ optional($etudiant->date_inscription)->format('d/m/Y') ?: '—' }}</td>
+                                            <td>{{ $etudiant->matiere }}</td>
+                                            <td>{{ $etudiant->type_paie_label }}</td>
+                                            <td>{{ $etudiant->mode_paie_label }}</td>
+                                            <td>
+                                                @if ($etudiant->photo)
+                                                    <img class="etudiant-photo-thumb" src="{{ asset('storage/'.$etudiant->photo) }}" alt="Photo {{ $etudiant->nom_complet }}">
+                                                @else
+                                                    <span class="etudiant-photo-empty">—</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="doc-actions">
+                                                    <button type="button" class="doc-action doc-action--icon" data-etudiant-view="{{ $etudiant->id }}" title="Voir" aria-label="Voir">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                                    </button>
+                                                    <button type="button" class="doc-action doc-action--icon" data-etudiant-edit="{{ $etudiant->id }}" title="Modifier" aria-label="Modifier">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20h4l11-11-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>
+                                                    </button>
+                                                    <button type="button" class="doc-action doc-action--icon doc-action--danger" data-etudiant-delete="{{ $etudiant->id }}" title="Supprimer" aria-label="Supprimer">
+                                                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M7 7l1 13h8l1-13"/></svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr id="etudiant-empty-row">
+                                            <td colspan="10" class="doc-empty">Aucun étudiant enregistré. Cliquez sur Ajouter pour saisir.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-overlay" id="etudiant-form-overlay" aria-hidden="true">
+                    <div class="doc-modal doc-modal--form" role="dialog" aria-modal="true" aria-labelledby="etudiant-form-title">
+                        <div class="doc-modal__head">
+                            <div>
+                                <h3 class="doc-modal__title" id="etudiant-form-title">Nouveau étudiant</h3>
+                                <p class="doc-modal__subtitle" id="etudiant-form-subtitle">Saisie</p>
+                            </div>
+                            <button type="button" class="btn btn--ghost" id="etudiant-form-close">Fermer</button>
+                        </div>
+
+                        <form method="POST" action="{{ route('admin.etudiants.store') }}" class="form-fields" id="etudiant-admin-form" enctype="multipart/form-data" novalidate>
+                            @csrf
+
+                            <div class="form-field form-field--full etudiant-photo-top">
+                                <label>Photo</label>
+                                <div class="form-photo etudiant-form-photo">
+                                    <div class="form-photo__preview" id="etudiant-photo-preview">
+                                        <img id="etudiant-photo-img" src="" alt="Aperçu photo">
+                                        <div class="form-photo__placeholder">
+                                            <strong>Photo étudiant</strong>
+                                            JPG, PNG — max 5 Mo
+                                        </div>
+                                    </div>
+                                    <label class="form-photo__btn" for="etudiant_photo">Importer Photo</label>
+                                    <input id="etudiant_photo" type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif">
+                                    <p class="etudiant-photo-hint" id="etudiant-photo-hint" hidden>Photo actuelle conservée si aucun nouveau fichier.</p>
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="etudiant_date">Date</label>
+                                <input id="etudiant_date" type="date" name="date_etudiant" value="{{ now()->toDateString() }}" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="etudiant_reference">ID/ET</label>
+                                <input id="etudiant_reference" type="text" readonly value="{{ $nextEtudiantRef ?? 'ID/ET-0001' }}">
+                            </div>
+                            <div class="form-field form-field--full">
+                                <label for="etudiant_nom">Nom Complet</label>
+                                <input id="etudiant_nom" type="text" name="nom_complet" required maxlength="255" placeholder="Nom complet">
+                            </div>
+                            <div class="form-field">
+                                <label for="etudiant_niveau">Niv/Sc</label>
+                                <input id="etudiant_niveau" type="text" name="niveau_scolaire" required maxlength="120" placeholder="Ex. 3ème, 1ère Bac…">
+                            </div>
+                            <div class="form-field">
+                                <label for="etudiant_matiere">Matière</label>
+                                <select id="etudiant_matiere" name="matiere" required>
+                                    <option value="">— Choisir —</option>
+                                    @foreach ($matiereOptions ?? [] as $matiereNom)
+                                        <option value="{{ $matiereNom }}">{{ $matiereNom }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="etudiant_type_paie">Type Paie</label>
+                                <select id="etudiant_type_paie" name="type_paie" required>
+                                    <option value="">— Choisir —</option>
+                                    @foreach ($etudiantTypePaies ?? [] as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="etudiant_mode_paie">Mode Paie</label>
+                                <select id="etudiant_mode_paie" name="mode_paie" required>
+                                    <option value="">— Choisir —</option>
+                                    @foreach ($etudiantModePaies ?? [] as $key => $label)
+                                        <option value="{{ $key }}">{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="doc-modal__actions form-field--full">
+                                <button type="button" class="btn btn--ghost" id="etudiant-form-cancel">Fermer</button>
+                                <button type="submit" class="btn btn--primary" id="etudiant-form-submit">Valider</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="doc-overlay" id="etudiant-view-overlay" aria-hidden="true">
+                    <div class="doc-modal" role="dialog" aria-modal="true" aria-labelledby="etudiant-view-title">
+                        <div class="doc-modal__head">
+                            <div>
+                                <h3 class="doc-modal__title" id="etudiant-view-title">Détail étudiant</h3>
+                                <p class="doc-modal__subtitle" id="etudiant-view-subtitle"></p>
+                            </div>
+                            <button type="button" class="btn btn--ghost" id="etudiant-view-close">Fermer</button>
+                        </div>
+                        <div class="doc-view-grid" id="etudiant-view-body"></div>
+                        <div class="doc-modal__actions">
+                            <button type="button" class="btn btn--ghost" id="etudiant-view-print">Imprimer</button>
+                            <button type="button" class="btn btn--primary" id="etudiant-view-edit">Modifier</button>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST" id="etudiant-delete-form" hidden>
+                    @csrf
+                    @method('DELETE')
+                </form>
+
+                <div class="etudiant-print-sheet" id="etudiant-print-sheet" aria-hidden="true">
+                    <img class="etudiant-print-sheet__photo" id="etudiant-print-photo" src="" alt="Photo">
+                    <div id="etudiant-print-body"></div>
                 </div>
             </section>
 
@@ -4312,7 +5169,7 @@
             });
         }
 
-        function showSection(section, { openGroup = true } = {}) {
+        function showSection(section, { openGroup = false } = {}) {
             currentSection = section;
             const groupKey = findGroupKey(section);
 
@@ -4351,8 +5208,8 @@
         }
 
         document.getElementById('sidebar-home-btn')?.addEventListener('click', () => {
-            closeAllGroups('administration');
-            showSection('administration', { openGroup: true });
+            closeAllGroups();
+            showSection('administration', { openGroup: false });
             window.history.replaceState({}, '', @json(route('admin.dashboard', ['section' => 'administration'])));
         });
 
@@ -4364,38 +5221,62 @@
             toggle.addEventListener('click', () => {
                 const section = toggle.dataset.section;
                 const group = toggle.closest('[data-nav-group]');
-                const groupKey = group?.dataset.navGroup;
                 const isOpen = group?.classList.contains('is-open');
+                const hasSub = Boolean(group?.querySelector('.nav-sub'));
 
-                // Reclic sur la section dÃ©jÃ  ouverte â†’ la fermer
-                if (isOpen && findGroupKey(currentSection) === groupKey) {
-                    setGroupOpen(group, false);
-                    group.classList.remove('is-active-section');
-                    toggle.classList.remove('is-active');
-                    toggle.setAttribute('aria-expanded', 'false');
+                if (hasSub) {
+                    if (isOpen) {
+                        setGroupOpen(group, false);
+                        return;
+                    }
+
+                    closeAllGroups();
+                    setGroupOpen(group, true);
+                    showSection(section, { openGroup: false });
                     return;
                 }
 
-                // Ouvrir cette section et fermer les autres
-                closeAllGroups(groupKey);
-                showSection(section, { openGroup: true });
+                closeAllGroups();
+                showSection(section, { openGroup: false });
             });
         });
 
         navSubItems.forEach((item) => {
             item.addEventListener('click', (event) => {
                 event.stopPropagation();
-                showSection(item.dataset.section, { openGroup: true });
+                showSection(item.dataset.section, { openGroup: false });
             });
         });
 
         document.querySelectorAll('[data-prof-target]').forEach((card) => {
             card.addEventListener('click', () => {
-                showSection(card.dataset.profTarget, { openGroup: true });
+                showSection(card.dataset.profTarget, { openGroup: false });
             });
         });
 
         const sessionViewOverlay = document.getElementById('session-view-overlay');
+        const sessionsWindow = document.getElementById('sessions-window');
+        const sessionsToggle = document.getElementById('sessions-toggle');
+        const sessionsToggleLabel = document.getElementById('sessions-toggle-label');
+
+        function setSessionsVisible(visible) {
+            sessionsWindow?.classList.toggle('is-collapsed', !visible);
+            sessionsToggle?.setAttribute('aria-expanded', visible ? 'true' : 'false');
+            if (sessionsToggleLabel) {
+                sessionsToggleLabel.textContent = visible ? 'Masquer' : 'Afficher';
+            }
+            const icon = sessionsToggle?.querySelector('svg');
+            if (icon) {
+                icon.innerHTML = visible
+                    ? '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'
+                    : '<path d="M3 3l18 18"/><path d="M10.6 10.6a3 3 0 004.2 4.2"/><path d="M9.9 5.1A10.4 10.4 0 0112 5c6.5 0 10 7 10 7a17.7 17.7 0 01-3.2 4.4"/><path d="M6.1 6.1C3.7 7.9 2 12 2 12s3.5 7 10 7c1.4 0 2.7-.3 3.9-.8"/>';
+            }
+        }
+
+        sessionsToggle?.addEventListener('click', () => {
+            const visible = sessionsToggle.getAttribute('aria-expanded') !== 'true';
+            setSessionsVisible(visible);
+        });
 
         function closeSessionView() {
             if (!sessionViewOverlay) return;
@@ -4537,7 +5418,7 @@
             }
 
             applySessionsCalendarFilters();
-            showSection('administration', { openGroup: true });
+            showSection('administration', { openGroup: false });
         });
 
         document.getElementById('paiement-year')?.addEventListener('change', (event) => {
@@ -4576,7 +5457,7 @@
 
         document.getElementById('centre-close')?.addEventListener('click', () => {
             if (centreSheetWrap) centreSheetWrap.hidden = true;
-            showSection('administration', { openGroup: true });
+            showSection('administration', { openGroup: false });
             window.history.replaceState({}, '', @json(route('admin.dashboard')));
         });
 
@@ -4997,7 +5878,532 @@
             applyFraisFilters();
         }
 
-        showSection(initialSection, { openGroup: true });
+        const profFormOverlay = document.getElementById('prof-form-overlay');
+        const profViewOverlay = document.getElementById('prof-view-overlay');
+        const profAdminForm = document.getElementById('prof-admin-form');
+        const profFormMethod = document.getElementById('prof-form-method');
+        const profFormTitle = document.getElementById('prof-form-title');
+        const profFormSubtitle = document.getElementById('prof-form-subtitle');
+        const profReferenceInput = document.getElementById('prof_reference');
+        const profDeleteForm = document.getElementById('prof-delete-form');
+        const nextProfRef = @json($nextProfRef ?? 'PR-0001');
+        const profsIndex = @json($profsIndex ?? []);
+        const profStoreUrl = @json(route('admin.profs.store'));
+        let editingProfId = null;
+
+        function setProfOverlayOpen(overlay, open) {
+            if (!overlay) return;
+            overlay.classList.toggle('is-open', open);
+            overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+        }
+
+        function resetProfForm() {
+            editingProfId = null;
+            if (profAdminForm) profAdminForm.action = profStoreUrl;
+            if (profFormMethod) profFormMethod.value = 'POST';
+            if (profFormTitle) profFormTitle.textContent = 'Nouveau professeur';
+            if (profFormSubtitle) profFormSubtitle.textContent = 'Saisie';
+            profAdminForm?.reset();
+            if (profReferenceInput) profReferenceInput.value = nextProfRef;
+            const dateInput = document.getElementById('prof_date');
+            if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10);
+        }
+
+        function openProfForm() {
+            resetProfForm();
+            setProfOverlayOpen(profFormOverlay, true);
+            document.getElementById('prof_nom')?.focus();
+        }
+
+        function closeProfForm() {
+            setProfOverlayOpen(profFormOverlay, false);
+        }
+
+        function fillProfForm(prof) {
+            editingProfId = prof.id;
+            if (profAdminForm) profAdminForm.action = prof.update_url;
+            if (profFormMethod) profFormMethod.value = 'PUT';
+            if (profFormTitle) profFormTitle.textContent = 'Modifier professeur';
+            if (profFormSubtitle) profFormSubtitle.textContent = prof.reference || '';
+            if (profReferenceInput) profReferenceInput.value = prof.reference || '';
+            const map = {
+                prof_date: prof.date_prof || '',
+                prof_nom: prof.nom_complet || '',
+                prof_matiere: prof.matiere || '',
+                prof_statut: prof.statut || '',
+                prof_etablissement: prof.etablissement || '',
+                prof_niveau: prof.niveau || '',
+                prof_type: prof.type || '',
+                prof_paiement: prof.paiement || '',
+            };
+            Object.entries(map).forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (el) el.value = value;
+            });
+        }
+
+        function openProfEdit(id) {
+            const prof = profsIndex[id];
+            if (!prof) return;
+            setProfOverlayOpen(profViewOverlay, false);
+            fillProfForm(prof);
+            setProfOverlayOpen(profFormOverlay, true);
+            document.getElementById('prof_nom')?.focus();
+        }
+
+        function openProfView(id) {
+            const prof = profsIndex[id];
+            if (!prof) return;
+            const body = document.getElementById('prof-view-body');
+            const subtitle = document.getElementById('prof-view-subtitle');
+            const pdfLink = document.getElementById('prof-view-pdf');
+            const editBtn = document.getElementById('prof-view-edit');
+            if (subtitle) subtitle.textContent = prof.reference || '';
+            if (pdfLink) pdfLink.href = prof.pdf_url;
+            if (editBtn) editBtn.onclick = () => openProfEdit(prof.id);
+            if (body) {
+                const fields = [
+                    ['Date', prof.date_label || '—'],
+                    ['ID', prof.reference || '—'],
+                    ['Nom Complet', prof.nom_complet || '—'],
+                    ['Matière', prof.matiere || '—'],
+                    ['Statut', prof.statut_label || '—'],
+                    ['Établissement', prof.etablissement || '—'],
+                    ['Niveau', prof.niveau_label || '—'],
+                    ['Type', prof.type_label || '—'],
+                    ['Paiement', prof.paiement_label || '—'],
+                ];
+                body.innerHTML = fields.map(([label, value]) => `
+                    <div class="form-field${label === 'Nom Complet' ? ' form-field--full' : ''}">
+                        <label>${label}</label>
+                        <div class="doc-view-value">${value}</div>
+                    </div>
+                `).join('');
+            }
+            setProfOverlayOpen(profViewOverlay, true);
+        }
+
+        function closeProfView() {
+            setProfOverlayOpen(profViewOverlay, false);
+        }
+
+        function deleteProf(id) {
+            const prof = profsIndex[id];
+            if (!prof || !profDeleteForm) return;
+            if (!window.confirm(`Supprimer le professeur ${prof.reference || prof.nom_complet || ''} ?`)) return;
+            profDeleteForm.action = prof.delete_url;
+            profDeleteForm.submit();
+        }
+
+        document.getElementById('prof-add-open')?.addEventListener('click', openProfForm);
+        document.getElementById('prof-form-close')?.addEventListener('click', closeProfForm);
+        document.getElementById('prof-form-cancel')?.addEventListener('click', closeProfForm);
+        document.getElementById('prof-view-close')?.addEventListener('click', closeProfView);
+        document.getElementById('prof-panel-close')?.addEventListener('click', () => {
+            showSection('profs', { openGroup: false });
+        });
+
+        profFormOverlay?.addEventListener('click', (event) => {
+            if (event.target === profFormOverlay) closeProfForm();
+        });
+        profViewOverlay?.addEventListener('click', (event) => {
+            if (event.target === profViewOverlay) closeProfView();
+        });
+
+        document.getElementById('prof-table-body')?.addEventListener('click', (event) => {
+            const viewBtn = event.target.closest('[data-prof-view]');
+            const editBtn = event.target.closest('[data-prof-edit]');
+            const deleteBtn = event.target.closest('[data-prof-delete]');
+            if (viewBtn) openProfView(viewBtn.dataset.profView);
+            if (editBtn) openProfEdit(editBtn.dataset.profEdit);
+            if (deleteBtn) deleteProf(deleteBtn.dataset.profDelete);
+        });
+
+        const matiereFormOverlay = document.getElementById('matiere-form-overlay');
+        const matiereAdminForm = document.getElementById('matiere-admin-form');
+        const matiereCarteRows = document.getElementById('matiere-carte-rows');
+
+        function setMatiereOverlayOpen(open) {
+            if (!matiereFormOverlay) return;
+            matiereFormOverlay.classList.toggle('is-open', open);
+            matiereFormOverlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+        }
+
+        function createMatiereCarteRow(withRemove = true) {
+            const row = document.createElement('div');
+            row.className = 'matiere-carte-row';
+            row.innerHTML = `
+                <input type="text" name="cartes[]" maxlength="255" placeholder="Nom de la carte">
+                <button type="button" class="btn btn--ghost ${withRemove ? 'matiere-carte-remove' : 'matiere-carte-add'}" title="${withRemove ? 'Retirer' : 'Ajouter une carte'}">${withRemove ? '−' : '+'}</button>
+            `;
+            return row;
+        }
+
+        function resetMatiereForm() {
+            matiereAdminForm?.reset();
+            if (!matiereCarteRows) return;
+            matiereCarteRows.innerHTML = '';
+            matiereCarteRows.appendChild(createMatiereCarteRow(false));
+        }
+
+        function openMatiereForm() {
+            resetMatiereForm();
+            setMatiereOverlayOpen(true);
+            document.getElementById('matiere_titre')?.focus();
+        }
+
+        function closeMatiereForm() {
+            setMatiereOverlayOpen(false);
+        }
+
+        document.getElementById('matiere-add-open')?.addEventListener('click', openMatiereForm);
+        document.getElementById('matiere-form-close')?.addEventListener('click', closeMatiereForm);
+        document.getElementById('matiere-form-cancel')?.addEventListener('click', closeMatiereForm);
+        document.getElementById('matiere-validate')?.addEventListener('click', () => {
+            showSection('profs', { openGroup: false });
+        });
+
+        matiereFormOverlay?.addEventListener('click', (event) => {
+            if (event.target === matiereFormOverlay) closeMatiereForm();
+        });
+
+        matiereCarteRows?.addEventListener('click', (event) => {
+            const addBtn = event.target.closest('.matiere-carte-add');
+            const removeBtn = event.target.closest('.matiere-carte-remove');
+            if (addBtn) {
+                matiereCarteRows.appendChild(createMatiereCarteRow(true));
+                const inputs = matiereCarteRows.querySelectorAll('input');
+                inputs[inputs.length - 1]?.focus();
+            }
+            if (removeBtn) {
+                removeBtn.closest('.matiere-carte-row')?.remove();
+            }
+        });
+
+        const matieresIndex = @json($matieresIndex ?? []);
+        const matiereSheetOverlay = document.getElementById('matiere-sheet-overlay');
+
+        function setMatiereSheetOpen(open) {
+            if (!matiereSheetOverlay) return;
+            matiereSheetOverlay.classList.toggle('is-open', open);
+            matiereSheetOverlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+        }
+
+        function openMatiereSheet(id) {
+            const data = matieresIndex[id];
+            if (!data) return;
+            document.querySelectorAll('.matiere-card').forEach((card) => {
+                card.classList.toggle('is-active', card.dataset.carteId === String(id));
+            });
+            const titreEl = document.getElementById('matiere-sheet-titre');
+            const titleEl = document.getElementById('matiere-sheet-title');
+            const etuEl = document.getElementById('matiere-sheet-etudiants');
+            const profsEl = document.getElementById('matiere-sheet-profs');
+            const revenuEl = document.getElementById('matiere-sheet-revenu');
+            if (titreEl) titreEl.textContent = data.titre || 'Matière';
+            if (titleEl) titleEl.textContent = data.nom || '';
+            if (etuEl) etuEl.textContent = Number(data.nb_etudiants || 0).toLocaleString('fr-FR');
+            if (profsEl) profsEl.textContent = Number(data.nb_profs || 0).toLocaleString('fr-FR');
+            if (revenuEl) {
+                revenuEl.textContent = Number(data.revenu_mensuel || 0).toLocaleString('fr-FR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
+            }
+            setMatiereSheetOpen(true);
+        }
+
+        function closeMatiereSheet() {
+            setMatiereSheetOpen(false);
+            document.querySelectorAll('.matiere-card.is-active').forEach((card) => card.classList.remove('is-active'));
+        }
+
+        document.getElementById('matiere-sheet-close')?.addEventListener('click', closeMatiereSheet);
+        matiereSheetOverlay?.addEventListener('click', (event) => {
+            if (event.target === matiereSheetOverlay) closeMatiereSheet();
+        });
+
+        document.getElementById('matiere-groups')?.addEventListener('click', (event) => {
+            const card = event.target.closest('.matiere-card');
+            if (!card) return;
+            openMatiereSheet(card.dataset.carteId);
+        });
+
+        const etudiantFormOverlay = document.getElementById('etudiant-form-overlay');
+        const etudiantViewOverlay = document.getElementById('etudiant-view-overlay');
+        const etudiantAdminForm = document.getElementById('etudiant-admin-form');
+        const etudiantFormTitle = document.getElementById('etudiant-form-title');
+        const etudiantFormSubtitle = document.getElementById('etudiant-form-subtitle');
+        const etudiantReferenceInput = document.getElementById('etudiant_reference');
+        const etudiantDeleteForm = document.getElementById('etudiant-delete-form');
+        const etudiantPhotoHint = document.getElementById('etudiant-photo-hint');
+        const etudiantPhotoPreview = document.getElementById('etudiant-photo-preview');
+        const etudiantPhotoImg = document.getElementById('etudiant-photo-img');
+        const nextEtudiantRef = @json($nextEtudiantRef ?? 'ID/ET-0001');
+        const etudiantsIndex = @json($etudiantsIndex ?? []);
+        const etudiantStoreUrl = @json(route('admin.etudiants.store'));
+        let editingEtudiantId = null;
+        let viewingEtudiantId = null;
+
+        function setEtudiantOverlayOpen(overlay, open) {
+            if (!overlay) return;
+            overlay.classList.toggle('is-open', open);
+            overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+        }
+
+        function setEtudiantPhotoPreview(url) {
+            if (!etudiantPhotoPreview || !etudiantPhotoImg) return;
+            if (url) {
+                etudiantPhotoImg.src = url;
+                etudiantPhotoPreview.classList.add('has-image');
+            } else {
+                etudiantPhotoImg.removeAttribute('src');
+                etudiantPhotoPreview.classList.remove('has-image');
+            }
+        }
+
+        function ensureEtudiantMatiereOption(value) {
+            const select = document.getElementById('etudiant_matiere');
+            if (!select || !value) return;
+            const exists = Array.from(select.options).some((opt) => opt.value === value);
+            if (!exists) {
+                const opt = document.createElement('option');
+                opt.value = value;
+                opt.textContent = value;
+                select.appendChild(opt);
+            }
+        }
+
+        function resetEtudiantForm() {
+            editingEtudiantId = null;
+            if (etudiantAdminForm) etudiantAdminForm.action = etudiantStoreUrl;
+            if (etudiantFormTitle) etudiantFormTitle.textContent = 'Nouveau étudiant';
+            if (etudiantFormSubtitle) etudiantFormSubtitle.textContent = 'Saisie';
+            etudiantAdminForm?.reset();
+            if (etudiantReferenceInput) etudiantReferenceInput.value = nextEtudiantRef;
+            const dateInput = document.getElementById('etudiant_date');
+            if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10);
+            if (etudiantPhotoHint) etudiantPhotoHint.hidden = true;
+            const photoInput = document.getElementById('etudiant_photo');
+            if (photoInput) photoInput.value = '';
+            setEtudiantPhotoPreview('');
+        }
+
+        function openEtudiantForm() {
+            resetEtudiantForm();
+            setEtudiantOverlayOpen(etudiantFormOverlay, true);
+            document.getElementById('etudiant_nom')?.focus();
+        }
+
+        function closeEtudiantForm() {
+            setEtudiantOverlayOpen(etudiantFormOverlay, false);
+        }
+
+        function fillEtudiantForm(etudiant) {
+            editingEtudiantId = etudiant.id;
+            if (etudiantAdminForm) etudiantAdminForm.action = etudiant.update_url;
+            if (etudiantFormTitle) etudiantFormTitle.textContent = 'Modifier étudiant';
+            if (etudiantFormSubtitle) etudiantFormSubtitle.textContent = etudiant.reference || '';
+            if (etudiantReferenceInput) etudiantReferenceInput.value = etudiant.reference || '';
+            ensureEtudiantMatiereOption(etudiant.matiere || '');
+            const map = {
+                etudiant_date: etudiant.date_etudiant || '',
+                etudiant_nom: etudiant.nom_complet || '',
+                etudiant_niveau: etudiant.niveau_scolaire || '',
+                etudiant_matiere: etudiant.matiere || '',
+                etudiant_type_paie: etudiant.type_paie || '',
+                etudiant_mode_paie: etudiant.mode_paie || '',
+            };
+            Object.entries(map).forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (el) el.value = value;
+            });
+            const photoInput = document.getElementById('etudiant_photo');
+            if (photoInput) photoInput.value = '';
+            if (etudiantPhotoHint) etudiantPhotoHint.hidden = !etudiant.photo_url;
+            setEtudiantPhotoPreview(etudiant.photo_url || '');
+        }
+
+        function openEtudiantEdit(id) {
+            const etudiant = etudiantsIndex[id];
+            if (!etudiant) return;
+            setEtudiantOverlayOpen(etudiantViewOverlay, false);
+            fillEtudiantForm(etudiant);
+            setEtudiantOverlayOpen(etudiantFormOverlay, true);
+            document.getElementById('etudiant_nom')?.focus();
+        }
+
+        function openEtudiantView(id) {
+            const etudiant = etudiantsIndex[id];
+            if (!etudiant) return;
+            viewingEtudiantId = etudiant.id;
+            const body = document.getElementById('etudiant-view-body');
+            const subtitle = document.getElementById('etudiant-view-subtitle');
+            const editBtn = document.getElementById('etudiant-view-edit');
+            if (subtitle) subtitle.textContent = etudiant.reference || '';
+            if (editBtn) editBtn.onclick = () => openEtudiantEdit(etudiant.id);
+            if (body) {
+                const photoHtml = etudiant.photo_url
+                    ? `<img class="etudiant-photo-thumb" src="${etudiant.photo_url}" alt="Photo" style="width:120px;height:120px;object-fit:cover;border-radius:12px;">`
+                    : '—';
+                const fields = [
+                    ['Photo', photoHtml],
+                    ['Date', etudiant.date_label || '—'],
+                    ['ID/ET', etudiant.reference || '—'],
+                    ['Nom Complet', etudiant.nom_complet || '—'],
+                    ['Niv/Sc', etudiant.niveau_scolaire || '—'],
+                    ['Date/Insc', etudiant.date_inscription_label || '—'],
+                    ['Matière', etudiant.matiere || '—'],
+                    ['Type Paie', etudiant.type_paie_label || '—'],
+                    ['Mode Paie', etudiant.mode_paie_label || '—'],
+                ];
+                body.innerHTML = fields.map(([label, value]) => `
+                    <div class="form-field${label === 'Nom Complet' || label === 'Photo' ? ' form-field--full' : ''}">
+                        <label>${label}</label>
+                        <div class="doc-view-value">${value}</div>
+                    </div>
+                `).join('');
+            }
+            setEtudiantOverlayOpen(etudiantViewOverlay, true);
+        }
+
+        function closeEtudiantView() {
+            setEtudiantOverlayOpen(etudiantViewOverlay, false);
+        }
+
+        function deleteEtudiant(id) {
+            const etudiant = etudiantsIndex[id];
+            if (!etudiant || !etudiantDeleteForm) return;
+            if (!window.confirm(`Supprimer l'étudiant ${etudiant.reference || etudiant.nom_complet || ''} ?`)) return;
+            etudiantDeleteForm.action = etudiant.delete_url;
+            etudiantDeleteForm.submit();
+        }
+
+        document.getElementById('etudiant_photo')?.addEventListener('change', (event) => {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            setEtudiantPhotoPreview(url);
+        });
+
+        function compressEtudiantPhoto(file, maxSide = 1200, quality = 0.82) {
+            return new Promise((resolve, reject) => {
+                if (!file || !file.type.startsWith('image/')) {
+                    resolve(file);
+                    return;
+                }
+                const img = new Image();
+                const objectUrl = URL.createObjectURL(file);
+                img.onload = () => {
+                    const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+                    const width = Math.max(1, Math.round(img.width * scale));
+                    const height = Math.max(1, Math.round(img.height * scale));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    URL.revokeObjectURL(objectUrl);
+                    canvas.toBlob((blob) => {
+                        if (!blob) {
+                            resolve(file);
+                            return;
+                        }
+                        const name = (file.name || 'photo').replace(/\.\w+$/, '') + '.jpg';
+                        resolve(new File([blob], name, { type: 'image/jpeg', lastModified: Date.now() }));
+                    }, 'image/jpeg', quality);
+                };
+                img.onerror = () => {
+                    URL.revokeObjectURL(objectUrl);
+                    reject(new Error('Impossible de lire la photo.'));
+                };
+                img.src = objectUrl;
+            });
+        }
+
+        etudiantAdminForm?.addEventListener('submit', async (event) => {
+            const photoInput = document.getElementById('etudiant_photo');
+            const file = photoInput?.files?.[0];
+            if (!file) return;
+
+            event.preventDefault();
+            try {
+                const compressed = await compressEtudiantPhoto(file);
+                const dt = new DataTransfer();
+                dt.items.add(compressed);
+                photoInput.files = dt.files;
+                etudiantAdminForm.submit();
+            } catch (error) {
+                window.alert(error?.message || 'Échec de la préparation de la photo.');
+            }
+        });
+
+        function printEtudiant(id) {
+            const etudiant = etudiantsIndex[id];
+            if (!etudiant) return;
+            const sheet = document.getElementById('etudiant-print-sheet');
+            const photo = document.getElementById('etudiant-print-photo');
+            const body = document.getElementById('etudiant-print-body');
+            if (photo) {
+                if (etudiant.photo_url) {
+                    photo.src = etudiant.photo_url;
+                    photo.style.display = 'block';
+                } else {
+                    photo.removeAttribute('src');
+                    photo.style.display = 'none';
+                }
+            }
+            if (body) {
+                body.innerHTML = `
+                    <h2 style="margin:0 0 12px;text-transform:uppercase;">Fiche Étudiant</h2>
+                    <p><strong>ID/ET :</strong> ${etudiant.reference || '—'}</p>
+                    <p><strong>Nom Complet :</strong> ${etudiant.nom_complet || '—'}</p>
+                    <p><strong>Date :</strong> ${etudiant.date_label || '—'}</p>
+                    <p><strong>Date/Insc :</strong> ${etudiant.date_inscription_label || '—'}</p>
+                    <p><strong>Niv/Sc :</strong> ${etudiant.niveau_scolaire || '—'}</p>
+                    <p><strong>Matière :</strong> ${etudiant.matiere || '—'}</p>
+                    <p><strong>Type Paie :</strong> ${etudiant.type_paie_label || '—'}</p>
+                    <p><strong>Mode Paie :</strong> ${etudiant.mode_paie_label || '—'}</p>
+                `;
+            }
+            if (sheet) sheet.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('printing-etudiant');
+            window.print();
+            setTimeout(() => {
+                document.body.classList.remove('printing-etudiant');
+                if (sheet) sheet.setAttribute('aria-hidden', 'true');
+            }, 400);
+        }
+
+        document.getElementById('etudiant-view-print')?.addEventListener('click', () => {
+            if (viewingEtudiantId) printEtudiant(viewingEtudiantId);
+        });
+
+        document.getElementById('etudiant-add-open')?.addEventListener('click', openEtudiantForm);
+        document.getElementById('etudiant-form-close')?.addEventListener('click', closeEtudiantForm);
+        document.getElementById('etudiant-form-cancel')?.addEventListener('click', closeEtudiantForm);
+        document.getElementById('etudiant-view-close')?.addEventListener('click', closeEtudiantView);
+        document.getElementById('etudiant-panel-close')?.addEventListener('click', () => {
+            showSection('administration', { openGroup: false });
+        });
+
+        etudiantFormOverlay?.addEventListener('click', (event) => {
+            if (event.target === etudiantFormOverlay) closeEtudiantForm();
+        });
+        etudiantViewOverlay?.addEventListener('click', (event) => {
+            if (event.target === etudiantViewOverlay) closeEtudiantView();
+        });
+
+        document.getElementById('etudiant-table-body')?.addEventListener('click', (event) => {
+            const viewBtn = event.target.closest('[data-etudiant-view]');
+            const editBtn = event.target.closest('[data-etudiant-edit]');
+            const deleteBtn = event.target.closest('[data-etudiant-delete]');
+            if (viewBtn) openEtudiantView(viewBtn.dataset.etudiantView);
+            if (editBtn) openEtudiantEdit(editBtn.dataset.etudiantEdit);
+            if (deleteBtn) deleteEtudiant(deleteBtn.dataset.etudiantDelete);
+        });
+
+        showSection(initialSection, { openGroup: false });
         buildPaiementChart('2026');
         buildProfsChart('2026');
     </script>
