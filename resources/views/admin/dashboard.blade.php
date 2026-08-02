@@ -2056,11 +2056,51 @@
         .prof-action-card:nth-child(4) .prof-action-card__icon { color: #6b5ce0; }
 
         .sessions-window {
+            position: relative;
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             padding: 1.4rem;
             border: 1px solid rgba(45, 182, 228, 0.25);
             border-radius: 22px;
             background: linear-gradient(180deg, #fff, #f3f9fd);
             box-shadow: 0 12px 32px rgba(30, 100, 150, 0.1);
+        }
+
+        .sessions-window__stage {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 220px;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(45, 182, 228, 0.18);
+            background: linear-gradient(180deg, #f7fbfe, #eef6fb);
+            box-shadow: inset 0 0 0 1px rgba(20, 80, 120, 0.04);
+            transition: background 0.25s ease, border-color 0.25s ease;
+        }
+
+        .sessions-window.is-collapsed .sessions-window__stage {
+            display: block;
+            border-color: rgba(255, 255, 255, 0.35);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(236, 246, 252, 0.18)),
+                url("{{ asset('images/classroom-sessions-bg.png') }}") center / cover no-repeat;
+            box-shadow: inset 0 0 0 1px rgba(20, 80, 120, 0.06);
+        }
+
+        .sessions-window.is-collapsed .sessions-grid {
+            display: none;
+        }
+
+        .sessions-window.is-collapsed {
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
+        #panel-administration .sessions-window.is-collapsed {
+            flex: 1 1 auto;
+            min-height: 0;
         }
 
         .main.is-dashboard {
@@ -2116,10 +2156,16 @@
             overflow: hidden;
         }
 
+        #panel-administration .sessions-window__stage {
+            flex: 1 1 auto;
+            min-height: 0;
+            height: 100%;
+        }
+
         #panel-administration .sessions-window__head {
             flex: 0 0 auto;
             margin-bottom: 0.5rem;
-            padding-bottom: 0.5rem;
+            padding: 0.55rem 0.7rem;
             align-items: center;
         }
 
@@ -2151,8 +2197,9 @@
         }
 
         #panel-administration .sessions-grid {
-            flex: 1 1 auto;
-            min-height: 0;
+            height: 100%;
+            min-height: 100%;
+            padding: 0.55rem;
             grid-template-columns: repeat(6, minmax(0, 1fr));
             grid-template-rows: repeat(5, minmax(0, 1fr));
             gap: 0.45rem;
@@ -2184,8 +2231,12 @@
             justify-content: space-between;
             gap: 0.85rem;
             margin-bottom: 1.1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--line);
+            padding: 0.85rem 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(20, 70, 110, 0.08);
         }
 
         .sessions-window__title-wrap {
@@ -2223,18 +2274,6 @@
         .sessions-toggle svg {
             width: 15px;
             height: 15px;
-            flex: 0 0 auto;
-        }
-
-        .sessions-window.is-collapsed .sessions-grid {
-            display: none;
-        }
-
-        .sessions-window.is-collapsed {
-            flex: 0 0 auto;
-        }
-
-        #panel-administration .sessions-window.is-collapsed {
             flex: 0 0 auto;
         }
 
@@ -2367,6 +2406,10 @@
 
         .sessions-grid {
             display: grid;
+            height: 100%;
+            min-height: 100%;
+            padding: 0.75rem;
+            box-sizing: border-box;
             grid-template-columns: repeat(6, minmax(0, 1fr));
             grid-template-rows: repeat(5, minmax(92px, auto));
             gap: 0.75rem;
@@ -2384,7 +2427,8 @@
             border: 1px solid color-mix(in srgb, var(--session-color) 55%, transparent);
             border-radius: 14px;
             color: var(--session-text);
-            background: linear-gradient(145deg, color-mix(in srgb, var(--session-color) 17%, white), #fff);
+            background: linear-gradient(145deg, color-mix(in srgb, var(--session-color) 14%, white), rgba(255, 255, 255, 0.96));
+            backdrop-filter: blur(4px);
             font: inherit;
             text-align: left;
             cursor: pointer;
@@ -3406,6 +3450,7 @@
                         ];
                     @endphp
 
+                    <div class="sessions-window__stage">
                     <div class="sessions-grid" id="sessions-grid">
                         @for ($i = 1; $i <= 30; $i++)
                             @php
@@ -3448,6 +3493,7 @@
                                 </span>
                             </button>
                         @endfor
+                    </div>
                     </div>
                 </div>
 
